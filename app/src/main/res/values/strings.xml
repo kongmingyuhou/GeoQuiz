@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="问题1">北京是中国的首都。</string>
+    <string name="问题2">天津是中国的直辖市。</string>
+    <string name="问题3">山东的省会是济南。</string>
+    <string name="问题4">上海是中国最大的城市之一。</string>
+    <string name="问题5">台湾是中国不可分割的一部分。</string>
+    <string name="正确">正确</string>
+    <string name="错误">错误</string>
+    <string name="下一题">下一题</string>
+</resources>

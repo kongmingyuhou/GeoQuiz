@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    private Button mTrueButton,mFalseButton,mNextButton;
+    private Button mTrueButton,mFalseButton;
+    private ImageButton mNextButton,mPreButton;
     private TextView mQuestionTextView;
     //private Toast showToast=null;
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mTrueButton=(Button)findViewById(R.id.true_button);
         mFalseButton=(Button)findViewById(R.id.false_button);
-        mNextButton=(Button)findViewById(R.id.next_button);
+        mNextButton=(ImageButton)findViewById(R.id.next_button);
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);
 
         updateQuestion();

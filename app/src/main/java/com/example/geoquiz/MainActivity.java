@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     private Button mTrueButton,mFalseButton,mNextButton;
     private TextView mQuestionTextView;
-    private Toast showToast;
+    //private Toast showToast=null;
 
     private Question[] mQuestionBank=new Question[]{
       new Question(R.string.问题1,true),new Question(R.string.问题2,true),
@@ -50,22 +51,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.true_button:
-                showToast=Toast.makeText(MainActivity.this,"回答正确",Toast.LENGTH_SHORT);
+                //showToast=Toast.makeText(MainActivity.this,"回答正确",Toast.LENGTH_SHORT);
+                checkAnswer(true);
                 break;
             case R.id.false_button:
-                showToast=Toast.makeText(MainActivity.this,"回答错误",Toast.LENGTH_SHORT);
+                //showToast=Toast.makeText(MainActivity.this,"回答错误",Toast.LENGTH_SHORT);
+                checkAnswer(false);
                 break;
             default:
                 break;
         }
-        showToast.setGravity(Gravity.TOP,0,0);
-        showToast.show();
     }
 
     private void updateQuestion()
     {
         int question=mQuestionBank[mCurrentIndext].getTextResId();
         mQuestionTextView.setText(question);
+    }
+
+    private void checkAnswer(boolean userPressedTrue)
+    {
+        boolean answerIsTrue=mQuestionBank[mCurrentIndext].isAnswerTrue();
+
+        int messageResId=0;
+
+        if(userPressedTrue==answerIsTrue)
+            messageResId=R.string.toast_正确;
+        else
+            messageResId=R.string.toast_错误;
+
+        Toast showToast = Toast.makeText(this,messageResId,Toast.LENGTH_SHORT);
+        showToast.setGravity(Gravity.TOP,0,0);
+        showToast.show();
     }
 }
 

@@ -33,19 +33,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTrueButton=(Button)findViewById(R.id.true_button);
         mFalseButton=(Button)findViewById(R.id.false_button);
         mNextButton=(ImageButton)findViewById(R.id.next_button);
+        mPreButton=(ImageButton)findViewById(R.id.pre_button);
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);
 
-        updateQuestion();
+        updateQuestion(mCurrentIndext);
 
         mTrueButton.setOnClickListener(MainActivity.this);
         mFalseButton.setOnClickListener(MainActivity.this);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentIndext=(mCurrentIndext+1)%mQuestionBank.length;
-                updateQuestion();
-            }
-        });
+        mNextButton.setOnClickListener(MainActivity.this);
+        mPreButton.setOnClickListener(MainActivity.this);
+        mQuestionTextView.setOnClickListener(MainActivity.this);
+//        mNextButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCurrentIndext=(mCurrentIndext+1)%mQuestionBank.length;
+//                updateQuestion();
+//            }
+//        });
     }
 
     @Override
@@ -60,14 +64,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //showToast=Toast.makeText(MainActivity.this,"回答错误",Toast.LENGTH_SHORT);
                 checkAnswer(false);
                 break;
+            case R.id.next_button:
+            case R.id.question_text_view:
+                mCurrentIndext=(mCurrentIndext+1)%mQuestionBank.length;
+                updateQuestion(mCurrentIndext);
+                break;
+            case R.id.pre_button:
+                mCurrentIndext=(mCurrentIndext+3)%mQuestionBank.length;
+                updateQuestion(mCurrentIndext);
+                break;
             default:
                 break;
         }
     }
 
-    private void updateQuestion()
+    private void updateQuestion(int currentIndext)
     {
-        int question=mQuestionBank[mCurrentIndext].getTextResId();
+        int question=mQuestionBank[currentIndext].getTextResId();
         mQuestionTextView.setText(question);
     }
 

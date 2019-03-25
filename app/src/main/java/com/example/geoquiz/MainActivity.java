@@ -2,7 +2,10 @@ package com.example.geoquiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +15,10 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
+    private static final String TAG="QuizActivity";
+    private static final String KEY_INDEX="index";
 
-    private Button mTrueButton,mFalseButton;
+    private Button mTrueButton,mFalseButton,mCheatButton;
     private ImageButton mNextButton,mPreButton;
     private TextView mQuestionTextView;
     //private Toast showToast=null;
@@ -28,13 +33,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //onCreate(）方法日志输出
+        Log.d(TAG,"onCreate(Bundle)called");
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState !=null)
+            mCurrentIndext=savedInstanceState.getInt(KEY_INDEX,0);
 
         mTrueButton=(Button)findViewById(R.id.true_button);
         mFalseButton=(Button)findViewById(R.id.false_button);
         mNextButton=(ImageButton)findViewById(R.id.next_button);
         mPreButton=(ImageButton)findViewById(R.id.pre_button);
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);
+        mCheatButton=(Button)findViewById(R.id.cheat_button);
 
         updateQuestion(mCurrentIndext);
 
@@ -57,21 +68,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.true_button:
+                mFalseButton.setClickable(false);
                 //showToast=Toast.makeText(MainActivity.this,"回答正确",Toast.LENGTH_SHORT);
                 checkAnswer(true);
                 break;
             case R.id.false_button:
+                mTrueButton.setClickable(false);
                 //showToast=Toast.makeText(MainActivity.this,"回答错误",Toast.LENGTH_SHORT);
                 checkAnswer(false);
                 break;
             case R.id.next_button:
             case R.id.question_text_view:
+                mTrueButton.setClickable(true);
+                mFalseButton.setClickable(true);
                 mCurrentIndext=(mCurrentIndext+1)%mQuestionBank.length;
                 updateQuestion(mCurrentIndext);
                 break;
             case R.id.pre_button:
-                mCurrentIndext=(mCurrentIndext+3)%mQuestionBank.length;
-                updateQuestion(mCurrentIndext);
+                if(mCurrentIndext>0)
+                {
+                    mTrueButton.setClickable(true);
+                    mFalseButton.setClickable(true);
+                    mCurrentIndext=(mCurrentIndext+3)%mQuestionBank.length;
+                    updateQuestion(mCurrentIndext);
+                }
+                break;
+            case R.id.cheat_button:
                 break;
             default:
                 break;
@@ -98,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast showToast = Toast.makeText(this,messageResId,Toast.LENGTH_SHORT);
         showToast.setGravity(Gravity.TOP,0,0);
         showToast.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(KEY_INDEX,mCurrentIndext);
     }
 }
 

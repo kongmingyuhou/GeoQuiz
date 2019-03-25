@@ -11,4 +11,8 @@
     <string name="上一题">上一题</string>
     <string name="toast_正确">回答正确</string>
     <string name="toast_错误">回答错误</string>
+    <string name="警告">你确定需要这样做吗？</string>
+    <string name="显示答案">显示答案</string>
+    <string name="作弊">作弊</string>
+    <string name="公平提示">作弊是不对的</string>
 </resources>
